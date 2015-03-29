@@ -8,29 +8,17 @@
         .body {
             background-color: black;
         }
-
-        #current-time {
-            display: block;
-            font-weight: bold;
-            text-align: center;
-            width: 200px;
-            padding: 10px;
-        }
-
         #clock {
             border: 1px solid #000000;
         }
     </style>
 </head>
-
 <body class="body">
 <!-- TODO redesign pour format rectangle height="1280px" -->
 <canvas id="clock" height="800px" width="800px" >
     If you can see this message, your browser does not support canvas
     and needs an upate. Sorry. :(
 </canvas>
-
-
 <script>
     (function () {
 
@@ -56,12 +44,9 @@
         }
 
         function updateClock() {
-            resetCanvas(context, canvas);
-
+            resetCanvas();
             drawOriginCircle();
-
             drawHourMarkers();
-
             drawAnalogTime();
         }
 
@@ -69,7 +54,6 @@
             var now = new Date();
 
             //TODO passer une config {} au drawArm
-
             var hour = now.getHours() % 12;
             var min = now.getMinutes();
             var sec = now.getSeconds();
@@ -82,13 +66,13 @@
             const minThickness = 4;
             const secThickness = 2;
 
-            const hourArmLengthPercent = 0.45;
-            const minArmLengthPercent = 0.60;
-            const secArmLengthPercent = 0.72;
+            const hourArmPercentLength = 0.45;
+            const minArmPercentLength = 0.60;
+            const secArmPercentLength = 0.72;
 
-            drawArm(hourProgress, hourThickness, hourArmLengthPercent, '#FFFFFF');
-            drawArm(minProgress, minThickness, minArmLengthPercent, '#FFFFFF');
-            drawArm(secProgress, secThickness, secArmLengthPercent, '#FF0000');
+            drawArm(hourProgress, hourThickness, hourArmPercentLength, '#FFFFFF');
+            drawArm(minProgress, minThickness, minArmPercentLength, '#FFFFFF');
+            drawArm(secProgress, secThickness, secArmPercentLength, '#FF0000');
         }
 
         function resetCanvas() {
@@ -106,30 +90,16 @@
          * Dessine les repères pour les heures dans le fond
          */
         function drawHourMarkers() {
-            for (var i = 0; i < 12; i++) {
-                var drawingStartDistance = 0.7;
-                var drawingStopDistance = 1.0;
-                context.lineWidth = 6;
-
-                if (i % 3) {
-                    drawingStartDistance = 0.75;
-                    drawingStopDistance = 1.20;
+            context.strokeStyle = '#FFFFFF';
+            for (var hour = 0; hour < 12; hour++) {
+                var isQuarter = !(hour % 3);
+                if (isQuarter) {
+                    context.lineWidth = 6;
+                    drawLine(hour / 12, 0.7, 1);
+                } else {
                     context.lineWidth = 4;
+                    drawLine(hour / 12, 0.8, 1.2);
                 }
-
-                //Set Style for hour markers
-                context.strokeStyle = '#FFFFFF';
-
-                var armRadians = (Math.TAU * (i / 12)) - (Math.TAU / 4);
-                var x1 = centerX + Math.cos(armRadians) * (drawingStartDistance * clockRadius);
-                var y1 = centerY + Math.sin(armRadians) * (drawingStartDistance * clockRadius);
-                var x2 = centerX + Math.cos(armRadians) * (drawingStopDistance * clockRadius);
-                var y2 = centerY + Math.sin(armRadians) * (drawingStopDistance * clockRadius);
-
-                context.beginPath();
-                context.moveTo(x1, y1); // Start at the center
-                context.lineTo(x2, y2); // Draw a line outwards
-                context.stroke();
             }
         }
 
@@ -141,21 +111,31 @@
          * @param armColor
          */
         function drawArm(progress, armThickness, armLength, armColor) {
-            var armRadians = (Math.TAU * progress) - (Math.TAU / 4);
-            var targetX = centerX + Math.cos(armRadians) * (armLength * clockRadius);
-            var targetY = centerY + Math.sin(armRadians) * (armLength * clockRadius);
-
-            var outCenterX = centerX + Math.cos(armRadians) * (15);
-            var outCenterY = centerY + Math.sin(armRadians) * (15);
-
+            const shiftFromCenter = 15;
             context.lineWidth = armThickness;
             context.strokeStyle = armColor;
 
+            drawLine(progress, shiftFromCenter / clockRadius, armLength);
+        }
+
+        /**
+         * @param progress pourcentage de progression ex: 3h = 15min = 0.25; 6h = 30 min = 0.5
+         * @param beginPercent début de la ligne en % du rayon
+         * @param endPercent fin de la ligne en % du rayon
+         */
+        function drawLine(progress, beginPercent, endPercent) {
+            var armRadians = (Math.TAU * (progress)) - (Math.TAU / 4);
+            var startingPointX = centerX + Math.cos(armRadians) * (beginPercent * clockRadius);
+            var startingPointY = centerY + Math.sin(armRadians) * (beginPercent * clockRadius);
+            var endingPointX = centerX + Math.cos(armRadians) * (endPercent * clockRadius);
+            var endingPointY = centerY + Math.sin(armRadians) * (endPercent * clockRadius);
+
             context.beginPath();
-            context.moveTo(outCenterX, outCenterY); // Start at the center
-            context.lineTo(targetX, targetY); // Draw a line outwards
+            context.moveTo(startingPointX, startingPointY);
+            context.lineTo(endingPointX, endingPointY);
             context.stroke();
         }
+
     })();
 </script>
 
