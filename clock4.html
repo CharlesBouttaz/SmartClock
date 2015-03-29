@@ -3,8 +3,7 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Analog Clock</title>
-
+    <title>Smartclock MISA</title>
     <style>
         .body {
             background-color: black;
@@ -25,72 +24,83 @@
 </head>
 
 <body class="body">
-<canvas id="clock" width="400" height="400">
+<!-- TODO redesign pour format rectangle height="1280px" -->
+<canvas id="clock" height="800px" width="800px" >
     If you can see this message, your browser does not support canvas
     and needs an upate. Sorry. :(
 </canvas>
 
 
 <script>
-	(function() {
-    document.addEventListener('DOMContentLoaded', startTimer);
-    function startTimer() {
-        setInterval(updateClocks, 1000);
-    }
+    (function () {
 
-    function updateClocks() {
-        var now = new Date();
-        var hour = now.getHours() % 12;
-        var min = now.getMinutes();
-        var sec = now.getSeconds();
-
+        //TODO mettre l'init dans un constructeur
         var canvas = document.getElementById("clock");
         var context = canvas.getContext("2d");
 
         // Rayon de l'horloge
-        var clockRadius = 200;
+        var clockRadius = canvas.width / 2;
 
         // Center clock in the canvas
-        var clockX = canvas.width / 2;
-        var clockY = canvas.height / 2;
+        var centerX = canvas.width / 2;
+        var centerY = canvas.height / 2;
 
         // Must define TAU
         Math.TAU = 2 * Math.PI;
 
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        //var radius = canvas.height / 2;
-        //context.beginPath();
-        context.arc(clockX, clockY, 9, 0, 2 * Math.PI);
-        context.fillStyle = "white";
-        context.fill();
+        document.addEventListener('DOMContentLoaded', startTimer);
+        //TODO end init
 
-        drawHourMarkers();
+        function startTimer() {
+            setInterval(updateClock, 1000);
+        }
 
-        var hProgress = (hour / 12) + (1 / 12) * (min / 60) + (1 / 12) * (1 / 60) * (sec / 60);
-        var mProgress = (min / 60) + (1 / 60) * (sec / 60);
-        var sProgress = (sec / 60);
+        function updateClock() {
+            resetCanvas(context, canvas);
 
-        drawArm(hProgress, 7, 1 / 2, '#FFFFFF'); // Hour
-        drawArm(hProgress, 7, -5 / clockRadius, '#FFFFFF'); // Hour
+            drawOriginCircle();
 
-        // write Hours
-        /*var hr  = now.getHours();
-        hr = hr>=12 ? hr-12 : hr;
-        context.save();
-        context.rotate( hr*(Math.PI/6) + (Math.PI/360)*min + (Math.PI/21600)*sec );
-        context.lineWidth = 14;
-        context.beginPath();
-        context.moveTo(-20,0);
-        context.lineTo(80,0);
-        context.stroke();
-        context.restore();
-*/
+            drawHourMarkers();
 
-        drawArm(mProgress, 4, 3 / 4, '#FFFFFF'); // Minute
-        drawArm(mProgress, 4, -2 / clockRadius, '#FFFFFF'); // Minute
+            drawAnalogTime();
+        }
 
-        drawArm(sProgress, 2, 1, '#FF0000'); // Second
-        drawArm(sProgress, 2, -10 / clockRadius, '#FF0000'); // Second
+        function drawAnalogTime() {
+            var now = new Date();
+
+            //TODO passer une config {} au drawArm
+
+            var hour = now.getHours() % 12;
+            var min = now.getMinutes();
+            var sec = now.getSeconds();
+
+            var secProgress = (sec / 60);
+            var minProgress = (min / 60) + (1 / 60) * secProgress;
+            var hourProgress = (hour / 12) + (1 / 12) * minProgress;
+
+            const hourThickness = 6;
+            const minThickness = 4;
+            const secThickness = 2;
+
+            const hourArmLengthPercent = 0.45;
+            const minArmLengthPercent = 0.60;
+            const secArmLengthPercent = 0.72;
+
+            drawArm(hourProgress, hourThickness, hourArmLengthPercent, '#FFFFFF');
+            drawArm(minProgress, minThickness, minArmLengthPercent, '#FFFFFF');
+            drawArm(secProgress, secThickness, secArmLengthPercent, '#FF0000');
+        }
+
+        function resetCanvas() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function drawOriginCircle() {
+            context.beginPath();
+            context.arc(centerX, centerY, 7, 0, 2 * Math.PI);
+            context.fillStyle = "white";
+            context.fill();
+        }
 
         /**
          * Dessine les repères pour les heures dans le fond
@@ -111,10 +121,10 @@
                 context.strokeStyle = '#FFFFFF';
 
                 var armRadians = (Math.TAU * (i / 12)) - (Math.TAU / 4);
-                var x1 = clockX + Math.cos(armRadians) * (drawingStartDistance * clockRadius);
-                var y1 = clockY + Math.sin(armRadians) * (drawingStartDistance * clockRadius);
-                var x2 = clockX + Math.cos(armRadians) * (drawingStopDistance * clockRadius);
-                var y2 = clockY + Math.sin(armRadians) * (drawingStopDistance * clockRadius);
+                var x1 = centerX + Math.cos(armRadians) * (drawingStartDistance * clockRadius);
+                var y1 = centerY + Math.sin(armRadians) * (drawingStartDistance * clockRadius);
+                var x2 = centerX + Math.cos(armRadians) * (drawingStopDistance * clockRadius);
+                var y2 = centerY + Math.sin(armRadians) * (drawingStopDistance * clockRadius);
 
                 context.beginPath();
                 context.moveTo(x1, y1); // Start at the center
@@ -124,7 +134,7 @@
         }
 
         /**
-         * Dessine les aiguilles
+         * Dessine une aiguille
          * @param progress
          * @param armThickness
          * @param armLength
@@ -132,20 +142,21 @@
          */
         function drawArm(progress, armThickness, armLength, armColor) {
             var armRadians = (Math.TAU * progress) - (Math.TAU / 4);
-            var targetX = clockX + Math.cos(armRadians) * (armLength * clockRadius);
-            var targetY = clockY + Math.sin(armRadians) * (armLength * clockRadius);
+            var targetX = centerX + Math.cos(armRadians) * (armLength * clockRadius);
+            var targetY = centerY + Math.sin(armRadians) * (armLength * clockRadius);
+
+            var outCenterX = centerX + Math.cos(armRadians) * (15);
+            var outCenterY = centerY + Math.sin(armRadians) * (15);
 
             context.lineWidth = armThickness;
             context.strokeStyle = armColor;
 
             context.beginPath();
-            context.moveTo(clockX, clockY); // Start at the center
+            context.moveTo(outCenterX, outCenterY); // Start at the center
             context.lineTo(targetX, targetY); // Draw a line outwards
             context.stroke();
         }
-
-    }
-	})();
+    })();
 </script>
 
 </body>
