@@ -48,31 +48,7 @@
             drawOriginCircle();
             drawHourMarkers();
             drawAnalogTime();
-        }
-
-        function drawAnalogTime() {
-            var now = new Date();
-
-            //TODO passer une config {} au drawArm
-            var hour = now.getHours() % 12;
-            var min = now.getMinutes();
-            var sec = now.getSeconds();
-
-            var secProgress = (sec / 60);
-            var minProgress = (min / 60) + (1 / 60) * secProgress;
-            var hourProgress = (hour / 12) + (1 / 12) * minProgress;
-
-            const hourThickness = 6;
-            const minThickness = 4;
-            const secThickness = 2;
-
-            const hourArmPercentLength = 0.45;
-            const minArmPercentLength = 0.60;
-            const secArmPercentLength = 0.72;
-
-            drawArm(hourProgress, hourThickness, hourArmPercentLength, '#FFFFFF');
-            drawArm(minProgress, minThickness, minArmPercentLength, '#FFFFFF');
-            drawArm(secProgress, secThickness, secArmPercentLength, '#FF0000');
+            drawNumericTime();
         }
 
         function resetCanvas() {
@@ -103,19 +79,38 @@
             }
         }
 
-        /**
-         * Dessine une aiguille
-         * @param progress
-         * @param armThickness
-         * @param armLength
-         * @param armColor
-         */
-        function drawArm(progress, armThickness, armLength, armColor) {
-            const shiftFromCenter = 15;
-            context.lineWidth = armThickness;
-            context.strokeStyle = armColor;
+        function drawAnalogTime() {
+            var now = new Date();
 
-            drawLine(progress, shiftFromCenter / clockRadius, armLength);
+            var secProgress = now.getSeconds() / 60;
+            var minProgress = now.getMinutes() / 60 + (1 / 60) * secProgress;
+            var hourProgress = (now.getHours() % 12) / 12 + (1 / 12) * minProgress;
+
+            drawArm({
+                progress: hourProgress,
+                thickness: 6,
+                length: 0.45,
+                color: '#FFFFFF'
+            });
+            drawArm({
+                progress: minProgress,
+                thickness: 4,
+                length: 0.60,
+                color: '#FFFFFF'
+            });
+            drawArm({
+                progress: secProgress,
+                thickness: 2,
+                length: 0.72,
+                color: '#FF0000'
+            });
+        }
+
+        function drawArm(params) {
+            const shiftFromCenter = 15;
+            context.lineWidth = params.thickness;
+            context.strokeStyle = params.color;
+            drawLine(params.progress, shiftFromCenter / clockRadius, params.length);
         }
 
         /**
@@ -134,6 +129,10 @@
             context.moveTo(startingPointX, startingPointY);
             context.lineTo(endingPointX, endingPointY);
             context.stroke();
+        }
+
+        function drawNumericTime() {
+            //TODO display numeric hour
         }
 
     })();
