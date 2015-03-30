@@ -132,7 +132,25 @@
         }
 
         function drawNumericTime() {
-            //TODO display numeric hour
+            var now = new Date();
+            context.strokeStyle = "#FFFFFF";
+            context.textAlign = 'center';
+
+            var daysOfWeek = ['DIM', 'LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM'];
+            context.font = "80pt Calibri";
+            context.fillText(daysOfWeek[now.getDay()], centerX, centerY - clockRadius / 3);
+
+            context.font = "55pt Calibri";
+            var dateDay = now.getDate() + "/" + padZero(now.getMonth());
+            context.fillText(dateDay, centerX, centerY - clockRadius / 6);
+        }
+
+        function padZero(num) {
+            var paddedString = String(num)
+            if (num < 10) {
+                paddedString = "0" + String(num);
+            }
+            return paddedString;
         }
 
     })();
