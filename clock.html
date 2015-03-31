@@ -136,13 +136,14 @@
             var now = new Date();
             context.strokeStyle = "#FFFFFF";
             context.textAlign = 'center';
+            var font = "Calibri";
 
+            context.font = "80pt " + font;
             var daysOfWeek = ['DIM', 'LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM'];
-            context.font = "80pt Calibri";
             context.fillText(daysOfWeek[now.getDay()], centerX, centerY - clockRadius / 3);
 
-            context.font = "55pt Calibri";
-            var dateDay = now.getDate() + "/" + padZero(now.getMonth());
+            context.font = "65pt " + font;
+            var dateDay = now.getDate() + "/" + padZero(now.getMonth()+1);
             context.fillText(dateDay, centerX, centerY - clockRadius / 6);
         }
 
