@@ -26,6 +26,7 @@
         //TODO mettre l'init dans un constructeur
         var canvas = document.getElementById("clock");
         var context = canvas.getContext("2d");
+	context.rotate(45*Math.PI/180);
 
         // Rayon de l'horloge
         var clockRadius = canvas.width / 2;
@@ -139,11 +140,11 @@
             var font = "Calibri";
 
             context.font = "80pt " + font;
-            var daysOfWeek = ['DIM', 'LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM'];
+            var daysOfWeek = ['DIM', 'LUN', 'MAR', 'MER-', 'JEU', 'VEN', 'SAM'];
             context.fillText(daysOfWeek[now.getDay()], centerX, centerY - clockRadius / 3);
 
             context.font = "65pt " + font;
-            var dateDay = now.getDate() + "/" + padZero(now.getMonth()+1);
+            var dateDay = padZero(now.getDate()) + "/" + padZero(now.getMonth()+1);
             context.fillText(dateDay, centerX, centerY - clockRadius / 6);
         }
 
