@@ -10,7 +10,7 @@
         }
         #clock {
             border: 1px solid #000000;
-            transform: rotate(270deg);
+            /*transform: rotate(270deg);*/
         }
     </style>
 </head>
@@ -26,7 +26,6 @@
         //TODO mettre l'init dans un constructeur
         var canvas = document.getElementById("clock");
         var context = canvas.getContext("2d");
-	context.rotate(45*Math.PI/180);
 
         // Rayon de l'horloge
         var clockRadius = canvas.width / 2;
@@ -140,7 +139,7 @@
             var font = "Calibri";
 
             context.font = "80pt " + font;
-            var daysOfWeek = ['DIM', 'LUN', 'MAR', 'MER-', 'JEU', 'VEN', 'SAM'];
+            var daysOfWeek = ['DIM', 'LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM'];
             context.fillText(daysOfWeek[now.getDay()], centerX, centerY - clockRadius / 3);
 
             context.font = "65pt " + font;
@@ -149,7 +148,7 @@
         }
 
         function padZero(num) {
-            var paddedString = String(num)
+            var paddedString = String(num);
             if (num < 10) {
                 paddedString = "0" + String(num);
             }
