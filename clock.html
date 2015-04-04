@@ -134,12 +134,12 @@
 
             context.font = "80pt " + font;
             var daysOfWeek = ['DIM', 'LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM'];
-            var dayOfWeekHeightPosition = 0.95;
+            var dayOfWeekHeightPosition = 1.2;
             context.fillText(daysOfWeek[now.getDay()], centerX, centerY - clockRadius / dayOfWeekHeightPosition);
 
             context.font = "65pt " + font;
             var dateDay = padZero(now.getDate()) + "/" + padZero(now.getMonth()+1);
-            var dateHeightPosition = 1.2;
+            var dateHeightPosition = 1.6;
             context.fillText(dateDay, centerX, centerY - clockRadius / dateHeightPosition);
         }
 
