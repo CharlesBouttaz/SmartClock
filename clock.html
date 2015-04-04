@@ -38,7 +38,8 @@
 
         document.addEventListener('DOMContentLoaded', startTimer);
 
-        drawHourMarkers();
+        var hourMarkersImg = new Image();
+        hourMarkersImg.src = 'images/Cadran.png';
 
         //TODO end init
 
@@ -49,6 +50,7 @@
         function updateClock() {
             resetCanvas();
             drawOriginCircle();
+            drawHourMarkers();
             drawAnalogTime();
             drawNumericTime();
         }
@@ -68,11 +70,7 @@
          * Dessine les repères pour les heures dans le fond
          */
         function drawHourMarkers() {
-            var hourMarkersImg = new Image();
-            hourMarkersImg.onload = function() {
-                context.drawImage(hourMarkersImg, 0, 0, 700, 1280);
-            };
-            hourMarkersImg.src = 'images/Cadran.png';
+            context.drawImage(hourMarkersImg, 0, 0, 700, 1280);
         }
 
         function drawAnalogTime() {
