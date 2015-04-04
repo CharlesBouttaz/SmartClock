@@ -16,7 +16,7 @@
 </head>
 <body class="body">
 <!-- TODO redesign pour format rectangle height="1280px" -->
-<canvas id="clock" height="700px" width="700px" >
+<canvas id="clock" height="1280px" width="700px" >
     If you can see this message, your browser does not support canvas
     and needs an upate. Sorry. :(
 </canvas>
@@ -67,17 +67,24 @@
          * Dessine les repères pour les heures dans le fond
          */
         function drawHourMarkers() {
-            context.strokeStyle = '#FFFFFF';
-            for (var hour = 0; hour < 12; hour++) {
-                var isQuarter = !(hour % 3);
-                if (isQuarter) {
-                    context.lineWidth = 6;
-                    drawLine(hour / 12, 0.7, 1);
-                } else {
-                    context.lineWidth = 4;
-                    drawLine(hour / 12, 0.8, 1.2);
-                }
-            }
+            var hourMarkersImg = new Image();
+            hourMarkersImg.onload = function() {
+                context.drawImage(hourMarkersImg, 0, 0, 700, 1280);
+            };
+            hourMarkersImg.src = 'images/Cadran.png';
+
+//          Draw marker programtically
+//            context.strokeStyle = '#FFFFFF';
+//            for (var hour = 0; hour < 12; hour++) {
+//                var isQuarter = !(hour % 3);
+//                if (isQuarter) {
+//                    context.lineWidth = 6;
+//                    drawLine(hour / 12, 0.7, 1);
+//                } else {
+//                    context.lineWidth = 4;
+//                    drawLine(hour / 12, 0.8, 1.2);
+//                }
+//            }
         }
 
         function drawAnalogTime() {
@@ -140,11 +147,13 @@
 
             context.font = "80pt " + font;
             var daysOfWeek = ['DIM', 'LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM'];
-            context.fillText(daysOfWeek[now.getDay()], centerX, centerY - clockRadius / 3);
+            var dayOfWeekHeightPosition = 0.95;
+            context.fillText(daysOfWeek[now.getDay()], centerX, centerY - clockRadius / dayOfWeekHeightPosition);
 
             context.font = "65pt " + font;
             var dateDay = padZero(now.getDate()) + "/" + padZero(now.getMonth()+1);
-            context.fillText(dateDay, centerX, centerY - clockRadius / 6);
+            var dateHeightPosition = 1.2;
+            context.fillText(dateDay, centerX, centerY - clockRadius / dateHeightPosition);
         }
 
         function padZero(num) {
