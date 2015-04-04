@@ -38,6 +38,9 @@
         Math.TAU = 2 * Math.PI;
 
         document.addEventListener('DOMContentLoaded', startTimer);
+
+        drawHourMarkers();
+
         //TODO end init
 
         function startTimer() {
@@ -47,7 +50,6 @@
         function updateClock() {
             resetCanvas();
             drawOriginCircle();
-            drawHourMarkers();
             drawAnalogTime();
             drawNumericTime();
         }
@@ -72,19 +74,6 @@
                 context.drawImage(hourMarkersImg, 0, 0, 700, 1280);
             };
             hourMarkersImg.src = 'images/Cadran.png';
-
-//          Draw marker programtically
-//            context.strokeStyle = '#FFFFFF';
-//            for (var hour = 0; hour < 12; hour++) {
-//                var isQuarter = !(hour % 3);
-//                if (isQuarter) {
-//                    context.lineWidth = 6;
-//                    drawLine(hour / 12, 0.7, 1);
-//                } else {
-//                    context.lineWidth = 4;
-//                    drawLine(hour / 12, 0.8, 1.2);
-//                }
-//            }
         }
 
         function drawAnalogTime() {
