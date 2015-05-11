@@ -105,23 +105,35 @@ define(function () {
         },
 
         drawWeather: function (canvasContext, weatherInfo) {
-        if (weatherInfo.weatherMessage != undefined) {
-            var heightRatio = 3.5;
-            var weatherIcon = weatherInfo.weatherIcon;
+            if (weatherInfo.weatherMessage != undefined) {
+                var heightRatio = 3.5;
+                var weatherIcon = weatherInfo.weatherIcon;
 
-            canvasContext.context.drawImage(weatherIcon,
-                canvasContext.getCenterX() - (weatherIcon.width - 20) / 2,
-                canvasContext.getCenterY() + canvasContext.getClockRadius() / heightRatio,
-                weatherIcon.width - 20, weatherIcon.height - 20);
+                canvasContext.context.drawImage(weatherIcon,
+                    canvasContext.getCenterX() - 100 - (weatherIcon.width - 20) / 2,
+                    canvasContext.getCenterY() + canvasContext.getClockRadius() / heightRatio,
+                    weatherIcon.width - 20, weatherIcon.height - 20);
 
-            canvasContext.setFontSize(40);
-            heightRatio = 1.2;
-            var formattedTemperature = weatherInfo.tempMin + "° - " + weatherInfo.tempMax + "°";
+                canvasContext.setFontSize(40);
+                heightRatio = 1.2;
+                var formattedTemperature = weatherInfo.tempMin + "° - " + weatherInfo.tempMax + "°";
 
-            canvasContext.context.fillText(formattedTemperature,
-                canvasContext.getCenterX(),
-                canvasContext.getCenterY() + canvasContext.getClockRadius() / heightRatio);
+                canvasContext.context.fillText(formattedTemperature,
+                    canvasContext.getCenterX() - 100,
+                    canvasContext.getCenterY() + canvasContext.getClockRadius() / heightRatio);
+            }
+        },
+
+        drawTraffic: function (canvasContext, trafficInfo) {
+            if (trafficInfo != undefined) {
+                var heightRatio = 1.2;
+
+                canvasContext.setFontSize(40);
+
+                canvasContext.context.fillText(trafficInfo + "MIN",
+                    canvasContext.getCenterX() + 100,
+                    canvasContext.getCenterY()+ canvasContext.getClockRadius() / heightRatio);
+            }
         }
-    }
     };
 });

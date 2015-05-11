@@ -1,9 +1,11 @@
 define(function (require) {
 
     var weatherInfoProvider = require('./weatherInfoProvider');
+    var trafficProvider = require('./trafficProvider');
     var canvasDrawer = require('./canvasDrawer');
 
     var canvas = document.getElementById("clock");
+
 
     var defaultClockBackground = new Image();
     defaultClockBackground.src = 'images/Cadran.png';
@@ -45,6 +47,10 @@ define(function (require) {
         canvasDrawer.drawAnalogTime(canvasContext);
         canvasDrawer.drawNumericTime(canvasContext);
         canvasDrawer.drawWeather(canvasContext, dataCtx.weatherInfo);
+        //TODO CBO gestion Async
+        if (trafficProvider != undefined) {
+            canvasDrawer.drawTraffic(canvasContext, trafficProvider.getTraffic());
+        }
     }
 
 });
