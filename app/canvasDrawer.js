@@ -106,33 +106,48 @@ define(function () {
 
         drawWeather: function (canvasContext, weatherInfo) {
             if (weatherInfo.weatherMessage != undefined) {
-                var heightRatio = 3.5;
+                var heightRatio = 3;
                 var weatherIcon = weatherInfo.weatherIcon;
 
-                canvasContext.context.drawImage(weatherIcon,
-                    canvasContext.getCenterX() - 100 - (weatherIcon.width - 20) / 2,
-                    canvasContext.getCenterY() + canvasContext.getClockRadius() / heightRatio,
-                    weatherIcon.width - 20, weatherIcon.height - 20);
+                var iconWidth = weatherIcon.width * 0.1;
+                var iconHeight = weatherIcon.height * 0.1;
 
-                canvasContext.setFontSize(40);
+                canvasContext.context.drawImage(weatherIcon,
+                    canvasContext.getCenterX() - 130 - iconWidth / 2,
+                    canvasContext.getCenterY() + canvasContext.getClockRadius() / heightRatio,
+                    iconWidth, iconHeight);
+
+                canvasContext.setFontSize(32);
                 heightRatio = 1.2;
                 var formattedTemperature = weatherInfo.tempMin + "° - " + weatherInfo.tempMax + "°";
 
                 canvasContext.context.fillText(formattedTemperature,
-                    canvasContext.getCenterX() - 100,
+                    canvasContext.getCenterX() - 130,
                     canvasContext.getCenterY() + canvasContext.getClockRadius() / heightRatio);
             }
         },
 
         drawTraffic: function (canvasContext, trafficInfo) {
             if (trafficInfo != undefined) {
-                var heightRatio = 1.2;
+                var heightRatio = 2.7;
 
-                canvasContext.setFontSize(40);
+                var trafficImage = new Image();
+                trafficImage.src = "images/traffic/traffic-icon.jpg";
 
-                canvasContext.context.fillText(trafficInfo + "MIN",
-                    canvasContext.getCenterX() + 100,
-                    canvasContext.getCenterY()+ canvasContext.getClockRadius() / heightRatio);
+                var iconWidth = trafficImage.width * 0.4;
+                var iconHeight = trafficImage.height * 0.4;
+
+                canvasContext.context.drawImage(trafficImage,
+                    canvasContext.getCenterX() + 130 - iconWidth / 2,
+                    canvasContext.getCenterY() + (canvasContext.getClockRadius() / heightRatio),
+                    iconWidth, iconHeight);
+
+                heightRatio = 1.2;
+                canvasContext.setFontSize(32);
+
+                canvasContext.context.fillText(trafficInfo + " min",
+                    canvasContext.getCenterX() + 130,
+                    canvasContext.getCenterY() + canvasContext.getClockRadius() / heightRatio);
             }
         }
     };
