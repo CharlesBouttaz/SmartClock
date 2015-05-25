@@ -131,13 +131,10 @@ define(function () {
             if (trafficInfo != undefined) {
                 var heightRatio = 2.7;
 
-                var trafficImage = new Image();
-                trafficImage.src = "images/traffic/traffic-icon.jpg";
+                var iconWidth = trafficInfo.trafficIcon.width * 0.4;
+                var iconHeight = trafficInfo.trafficIcon.height * 0.4;
 
-                var iconWidth = trafficImage.width * 0.4;
-                var iconHeight = trafficImage.height * 0.4;
-
-                canvasContext.context.drawImage(trafficImage,
+                canvasContext.context.drawImage(trafficInfo.trafficIcon,
                     canvasContext.getCenterX() + 130 - iconWidth / 2,
                     canvasContext.getCenterY() + (canvasContext.getClockRadius() / heightRatio),
                     iconWidth, iconHeight);
@@ -145,10 +142,26 @@ define(function () {
                 heightRatio = 1.2;
                 canvasContext.setFontSize(32);
 
-                canvasContext.context.fillText(trafficInfo + " min",
+                canvasContext.context.fillText(trafficInfo.trafficDuration + " min",
                     canvasContext.getCenterX() + 130,
                     canvasContext.getCenterY() + canvasContext.getClockRadius() / heightRatio);
             }
+        },
+
+        drawAgenda: function (canvasContext) {
+
+            var agendaIcon = new Image();
+            agendaIcon.src = 'images/agenda/sample-anniv.png';
+
+            var iconWidth = agendaIcon.width * 0.2;
+            var iconHeight = agendaIcon.height * 0.2;
+
+            var heightRatio = 1.1;
+            canvasContext.context.drawImage(agendaIcon,
+                canvasContext.getCenterX() - iconWidth / 2,
+                canvasContext.getCenterY() + (canvasContext.getClockRadius() / heightRatio),
+                iconWidth, iconHeight);
+
         }
     };
 });

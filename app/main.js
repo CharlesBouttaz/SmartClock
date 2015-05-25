@@ -47,6 +47,7 @@ define(function (require) {
         canvasDrawer.drawAnalogTime(canvasContext);
         canvasDrawer.drawNumericTime(canvasContext);
         canvasDrawer.drawWeather(canvasContext, dataCtx.weatherInfo);
+        canvasDrawer.drawAgenda(canvasContext);
         //TODO CBO gestion Async
         if (trafficProvider != undefined) {
             canvasDrawer.drawTraffic(canvasContext, trafficProvider.getTraffic());
