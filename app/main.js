@@ -8,7 +8,7 @@ define(function (require) {
 
 
     var defaultClockBackground = new Image();
-    defaultClockBackground.src = 'images/Cadran.png';
+    defaultClockBackground.src = 'images/backgrounds/Background_Black.png';
 
     var canvasContext = {
         width: canvas.width,
@@ -44,9 +44,8 @@ define(function (require) {
     }, 1000);
 
     function updateClock(canvasContext) {
-        canvasDrawer.resetCanvas(canvasContext);
+        canvasDrawer.drawBackground(canvasContext);
         canvasDrawer.drawOriginCircle(canvasContext);
-        canvasDrawer.drawHourMarkers(canvasContext);
         canvasDrawer.drawAnalogTime(canvasContext);
         canvasDrawer.drawNumericTime(canvasContext);
         canvasDrawer.drawWeather(canvasContext, dataCtx.weatherInfo);

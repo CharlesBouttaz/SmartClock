@@ -1,9 +1,6 @@
 define(function () {
 
     return {
-        resetCanvas: function (canvasContext) {
-            canvasContext.context.clearRect(0, 0, canvasContext.width, canvasContext.height);
-        },
         drawOriginCircle: function (canvasContext) {
             canvasContext.context.beginPath();
             canvasContext.context.arc(canvasContext.getCenterX(), canvasContext.getCenterY(), 7, 0, 2 * Math.PI);
@@ -13,7 +10,7 @@ define(function () {
         /**
          * Dessine les repères pour les heures dans le fond
          */
-        drawHourMarkers: function (canvasContext) {
+        drawBackground: function (canvasContext) {
             canvasContext.context.drawImage(canvasContext.clockBackground, 0, 0, canvasContext.width, canvasContext.height);
         },
 
