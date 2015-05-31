@@ -147,7 +147,7 @@ define(function () {
 
         drawAgenda: function (canvasContext) {
             var agendaIcon = new Image();
-            agendaIcon.src = 'images/agenda/agenda_icon.png';
+            agendaIcon.src = 'images/agenda/Agenda_Icon.png';
 
             var iconWidth = agendaIcon.width * 0.35;
             var iconHeight = agendaIcon.height * 0.35;
