@@ -10,7 +10,7 @@ define(function (require) {
     var defaultClockBackground = new Image();
     defaultClockBackground.src = 'images/Cadran.png';
 
-    var canvasCtx = {
+    var canvasContext = {
         width: canvas.width,
         height: canvas.height,
         context: canvas.getContext("2d"),
@@ -29,6 +29,9 @@ define(function (require) {
         },
         setFontSize: function (size) {
             this.context.font = size + "pt " + this.fontType;
+        },
+        getProportionalY: function(heightRatio){
+            return this.getCenterY() + this.getClockRadius() / heightRatio;
         }
     };
 
@@ -37,7 +40,7 @@ define(function (require) {
     };
 
     setInterval(function () {
-        updateClock(canvasCtx, dataCtx)
+        updateClock(canvasContext, dataCtx)
     }, 1000);
 
     function updateClock(canvasContext) {

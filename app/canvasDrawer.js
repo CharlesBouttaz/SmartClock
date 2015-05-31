@@ -1,5 +1,5 @@
 define(function () {
-    //TODO extract sub module ?
+
     return {
         resetCanvas: function (canvasContext) {
             canvasContext.context.clearRect(0, 0, canvasContext.width, canvasContext.height);
@@ -85,15 +85,14 @@ define(function () {
 
             canvasContext.context.fillText(displayDayOfWeek,
                 canvasContext.getCenterX(),
-                canvasContext.getCenterY() + canvasContext.getClockRadius() / dayOfWeekHeightPosition);
-
+                canvasContext.getProportionalY(dayOfWeekHeightPosition));
 
             canvasContext.setFontSize(65);
             var dateHeightPosition = -1.6;
 
             canvasContext.context.fillText(displayCalendarDay,
                 canvasContext.getCenterX(),
-                canvasContext.getCenterY() + canvasContext.getClockRadius() / dateHeightPosition);
+                canvasContext.getProportionalY(dateHeightPosition));
 
             function padZero(num) {
                 var paddedString = String(num);
@@ -114,7 +113,7 @@ define(function () {
 
                 canvasContext.context.drawImage(weatherIcon,
                     canvasContext.getCenterX() - 130 - iconWidth / 2,
-                    canvasContext.getCenterY() + canvasContext.getClockRadius() / heightRatio,
+                    canvasContext.getProportionalY(heightRatio),
                     iconWidth, iconHeight);
 
                 canvasContext.setFontSize(32);
@@ -123,20 +122,20 @@ define(function () {
 
                 canvasContext.context.fillText(formattedTemperature,
                     canvasContext.getCenterX() - 130,
-                    canvasContext.getCenterY() + canvasContext.getClockRadius() / heightRatio);
+                    canvasContext.getProportionalY(heightRatio));
             }
         },
 
         drawTraffic: function (canvasContext, trafficInfo) {
             if (trafficInfo != undefined) {
-                var heightRatio = 2.7;
+                var heightRatio = 2.5;
 
                 var iconWidth = trafficInfo.trafficIcon.width * 0.4;
                 var iconHeight = trafficInfo.trafficIcon.height * 0.4;
 
                 canvasContext.context.drawImage(trafficInfo.trafficIcon,
                     canvasContext.getCenterX() + 130 - iconWidth / 2,
-                    canvasContext.getCenterY() + (canvasContext.getClockRadius() / heightRatio),
+                    canvasContext.getProportionalY(heightRatio),
                     iconWidth, iconHeight);
 
                 heightRatio = 1.2;
@@ -144,23 +143,27 @@ define(function () {
 
                 canvasContext.context.fillText(trafficInfo.trafficDuration + " min",
                     canvasContext.getCenterX() + 130,
-                    canvasContext.getCenterY() + canvasContext.getClockRadius() / heightRatio);
+                    canvasContext.getProportionalY(heightRatio));
             }
         },
 
         drawAgenda: function (canvasContext) {
-
             var agendaIcon = new Image();
-            agendaIcon.src = 'images/agenda/sample-anniv.png';
+            agendaIcon.src = 'images/agenda/agenda_icon.png';
 
-            var iconWidth = agendaIcon.width * 0.2;
-            var iconHeight = agendaIcon.height * 0.2;
+            var iconWidth = agendaIcon.width * 0.35;
+            var iconHeight = agendaIcon.height * 0.35;
 
             var heightRatio = 1.1;
             canvasContext.context.drawImage(agendaIcon,
                 canvasContext.getCenterX() - iconWidth / 2,
-                canvasContext.getCenterY() + (canvasContext.getClockRadius() / heightRatio),
+                canvasContext.getProportionalY(heightRatio),
                 iconWidth, iconHeight);
+
+            canvasContext.setFontSize(25);
+            canvasContext.context.fillText("17h Dentiste",
+                canvasContext.getCenterX(),
+                canvasContext.getProportionalY(heightRatio) + 150);
 
         }
     };

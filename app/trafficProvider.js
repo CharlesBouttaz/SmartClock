@@ -9,7 +9,7 @@ define(['async!https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true'],
     //var trafficDuration;
 
     trafficInfo.trafficIcon = new Image();
-    trafficInfo.trafficIcon.src = "images/traffic/traffic-icon.jpg";
+    trafficInfo.trafficIcon.src = "images/traffic/traffic_icon.png";
 
     function calcRoute() {
         var start = "Tassin-la-Demi-Lune, France";
