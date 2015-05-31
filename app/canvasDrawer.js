@@ -11,6 +11,7 @@ define(function () {
          * Dessine les repères pour les heures dans le fond
          */
         drawBackground: function (canvasContext) {
+            canvasContext.context.clearRect(0, 0, canvasContext.width, canvasContext.height);
             canvasContext.context.drawImage(canvasContext.clockBackground, 0, 0, canvasContext.width, canvasContext.height);
         },
 

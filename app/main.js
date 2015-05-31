@@ -36,8 +36,26 @@ define(function (require) {
     };
 
     var dataCtx = {
-        weatherInfo: weatherInfoProvider.getWeatherInfo()
+        weatherInfo: weatherInfoProvider.getWeatherInfo(),
+        trafficInfo : trafficProvider.getTraffic()
     };
+
+    setInterval(function () {
+        changeBackground(canvasContext)
+    }, 30000);
+
+    var backgroundIndex = 0;
+    function changeBackground(canvasContext) {
+        if (backgroundIndex > 2) {
+            backgroundIndex = 0;
+        }
+        var backgroundImages = [
+            "Background_Black.png",
+            "Background_Vintage.png",
+            "Background_Zen.png"
+            ];
+        canvasContext.clockBackground.src = 'images/backgrounds/' + backgroundImages[backgroundIndex++];
+    }
 
     setInterval(function () {
         updateClock(canvasContext, dataCtx)
@@ -46,14 +64,14 @@ define(function (require) {
     function updateClock(canvasContext) {
         canvasDrawer.drawBackground(canvasContext);
         canvasDrawer.drawOriginCircle(canvasContext);
-        canvasDrawer.drawAnalogTime(canvasContext);
         canvasDrawer.drawNumericTime(canvasContext);
         canvasDrawer.drawWeather(canvasContext, dataCtx.weatherInfo);
         canvasDrawer.drawAgenda(canvasContext);
         //TODO CBO gestion Async
         if (trafficProvider != undefined) {
-            canvasDrawer.drawTraffic(canvasContext, trafficProvider.getTraffic());
+            canvasDrawer.drawTraffic(canvasContext, dataCtx.trafficInfo);
         }
+        canvasDrawer.drawAnalogTime(canvasContext);
     }
 
 });
