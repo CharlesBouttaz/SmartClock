@@ -40,12 +40,23 @@ define(function (require) {
         trafficInfo : trafficProvider.getTraffic()
     };
 
+    var allEssentials = [
+        canvasDrawer.drawWeather,
+        canvasDrawer.drawAgenda,
+        canvasDrawer.drawTraffic,
+        canvasDrawer.drawBourse,
+        canvasDrawer.drawBus,
+        canvasDrawer.drawRSS
+    ];
+
+    var essentialsShift = 0;
+
     setInterval(function () {
-        changeBackground(canvasContext)
+        changeBackgroundAndEssentials(canvasContext)
     }, 30000);
 
     var backgroundIndex = 0;
-    function changeBackground(canvasContext) {
+    function changeBackgroundAndEssentials(canvasContext) {
         if (backgroundIndex > 2) {
             backgroundIndex = 0;
         }
@@ -53,25 +64,31 @@ define(function (require) {
             "Background_Black.png",
             "Background_Vintage.png",
             "Background_Zen.png"
-            ];
+        ];
         canvasContext.clockBackground.src = 'images/backgrounds/' + backgroundImages[backgroundIndex++];
+
+        if (essentialsShift == 0) {
+            essentialsShift = 3;
+        } else {
+            essentialsShift = 0;
+        }
+
     }
 
     setInterval(function () {
-        updateClock(canvasContext, dataCtx)
+        updateClock(canvasContext, dataCtx, allEssentials, essentialsShift)
     }, 1000);
 
-    function updateClock(canvasContext) {
+    function updateClock(canvasContext, dataCtx, allEssentials, essentialsShift) {
         canvasDrawer.drawBackground(canvasContext);
         canvasDrawer.drawOriginCircle(canvasContext);
         canvasDrawer.drawNumericTime(canvasContext);
-        canvasDrawer.drawWeather(canvasContext, dataCtx.weatherInfo);
-        canvasDrawer.drawAgenda(canvasContext);
-        //TODO CBO gestion Async
-        if (trafficProvider != undefined) {
-            canvasDrawer.drawTraffic(canvasContext, dataCtx.trafficInfo);
-        }
         canvasDrawer.drawAnalogTime(canvasContext);
+
+        allEssentials[0+essentialsShift](canvasContext, dataCtx);
+        allEssentials[1+essentialsShift](canvasContext, dataCtx);
+        allEssentials[2+essentialsShift](canvasContext, dataCtx);
+
     }
 
 });

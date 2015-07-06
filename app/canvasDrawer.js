@@ -101,7 +101,12 @@ define(function () {
             }
         },
 
-        drawWeather: function (canvasContext, weatherInfo) {
+        /**
+         * ESSENTIELS
+         */
+
+        drawWeather: function (canvasContext, dataCtx) {
+            var weatherInfo = dataCtx.weatherInfo;
             if (weatherInfo.weatherMessage != undefined) {
                 var heightRatio = 3;
                 var weatherIcon = weatherInfo.weatherIcon;
@@ -124,24 +129,27 @@ define(function () {
             }
         },
 
-        drawTraffic: function (canvasContext, trafficInfo) {
-            if (trafficInfo != undefined) {
-                var heightRatio = 2.5;
+        drawTraffic: function (canvasContext, dataCtx) {
+            if (dataCtx.trafficInfo != undefined) {
+                var trafficInfo = dataCtx.trafficInfo;
+                if (trafficInfo != undefined) {
+                    var heightRatio = 2.5;
 
-                var iconWidth = trafficInfo.trafficIcon.width * 0.4;
-                var iconHeight = trafficInfo.trafficIcon.height * 0.4;
+                    var iconWidth = trafficInfo.trafficIcon.width * 0.4;
+                    var iconHeight = trafficInfo.trafficIcon.height * 0.4;
 
-                canvasContext.context.drawImage(trafficInfo.trafficIcon,
-                    canvasContext.getCenterX() + 130 - iconWidth / 2,
-                    canvasContext.getProportionalY(heightRatio),
-                    iconWidth, iconHeight);
+                    canvasContext.context.drawImage(trafficInfo.trafficIcon,
+                        canvasContext.getCenterX() + 130 - iconWidth / 2,
+                        canvasContext.getProportionalY(heightRatio),
+                        iconWidth, iconHeight);
 
-                heightRatio = 1.2;
-                canvasContext.setFontSize(32);
+                    heightRatio = 1.2;
+                    canvasContext.setFontSize(32);
 
-                canvasContext.context.fillText(trafficInfo.trafficDuration + " min",
-                    canvasContext.getCenterX() + 130,
-                    canvasContext.getProportionalY(heightRatio));
+                    canvasContext.context.fillText(trafficInfo.trafficDuration + " min",
+                        canvasContext.getCenterX() + 130,
+                        canvasContext.getProportionalY(heightRatio));
+                }
             }
         },
 
@@ -163,6 +171,72 @@ define(function () {
                 canvasContext.getCenterX(),
                 canvasContext.getProportionalY(heightRatio) + 150);
 
+        },
+
+        drawBus: function (canvasContext, dataCtx) {
+            var busIcon = new Image();
+            busIcon.src = 'images/bus/Bus.png';
+
+            var heightRatio = 3;
+            var iconWidth = busIcon.width * 0.6;
+            var iconHeight = busIcon.height * 0.6;
+
+            canvasContext.context.drawImage(busIcon,
+                canvasContext.getCenterX() - 130 - iconWidth / 2,
+                canvasContext.getProportionalY(heightRatio),
+                iconWidth, iconHeight);
+
+            canvasContext.setFontSize(32);
+            heightRatio = 1.2;
+            var formattedTemperature = "20min";
+
+            canvasContext.context.fillText(formattedTemperature,
+                canvasContext.getCenterX() - 130,
+                canvasContext.getProportionalY(heightRatio));
+        },
+
+        drawBourse: function (canvasContext, dataCtx) {
+            var busIcon = new Image();
+            busIcon.src = 'images/bourse/Bourse.png';
+
+                var heightRatio = 2.5;
+
+                var iconWidth = busIcon.width * 0.5;
+                var iconHeight = busIcon.height * 0.5;
+
+                canvasContext.context.drawImage(busIcon,
+                    canvasContext.getCenterX() + 130 - iconWidth / 2,
+                    canvasContext.getProportionalY(heightRatio),
+                    iconWidth, iconHeight);
+
+                heightRatio = 1.2;
+                canvasContext.setFontSize(32);
+
+                canvasContext.context.fillText("+4.20%",
+                    canvasContext.getCenterX() + 130,
+                    canvasContext.getProportionalY(heightRatio));
+        },
+
+        drawRSS: function (canvasContext, dataCtx) {
+            var agendaIcon = new Image();
+            agendaIcon.src = 'images/RSS/RSS.png';
+
+            var iconWidth = agendaIcon.width * 0.5;
+            var iconHeight = agendaIcon.height * 0.5;
+
+            var heightRatio = 1.1;
+            canvasContext.context.drawImage(agendaIcon,
+                canvasContext.getCenterX() - iconWidth / 2,
+                canvasContext.getProportionalY(heightRatio),
+                iconWidth, iconHeight);
+
+            heightRatio = 1.2;
+            canvasContext.setFontSize(25);
+            canvasContext.context.fillText("Nouveau podcast",
+                canvasContext.getCenterX(),
+                canvasContext.getProportionalY(heightRatio) + 150);
+
         }
+
     };
 });
